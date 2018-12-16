@@ -37,6 +37,8 @@ for line in file:
             exit(0)
         i+=1
 
+file.close()
+
 for i in range(0,len(tokens)):
     if(tokens[i][0]=="if"):
         tokens[i+4][0]="goto"
@@ -46,8 +48,9 @@ tokens.append("EOF")
 # ******************** parser ***********************
 
 parsing_table = {}
-terminal=[]
-nonterminal={'line':10,'id':11,'const':12,'if':13,'goto':14,'print':15,'stop':16,'op':17}
+#terminal=['line_num','id','const','IF','GOTO','PRINT','STOP','+','-','<','=']
+nonterminal=['pgm','line','stmt','asgmnt','exp','term','if','cond','print','goto','stop']
+terminal={'line_num':10,'id':11,'const':12,'IF':13,'GOTO':14,'PRINT':15,'STOP':16,'+':17,'-':17,'<':17,'=':17}
 
 stack = []
 stack.append("EOF")
@@ -58,7 +61,23 @@ output=[]
 
 while(1):
     top=stack[len(stack)-1]
-    if(tokens[point][0]==top):
+    if(top in terminal and tokens[point][0]==top):
+        output+=stack.pop()
+        point+=1
+    elif(top in nonterminal):
+        if((top,tokens[point][0]) in parsing_table):
+            
+        else:
+            output="ERROR"
+    elif(top=="EOF"):
+        print("ACCEPT")
+        break
+    else:
+        output="ERROR"
+        break
+
+file
+        
         
             
             
